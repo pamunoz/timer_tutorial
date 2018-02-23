@@ -1,11 +1,13 @@
 package com.pfariasmunoz.timertutorial.timer
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.pfariasmunoz.timertutorial.R
+import com.pfariasmunoz.timertutorial.settings.SettingsActivity
 import com.pfariasmunoz.timertutorial.util.AlarmUtil
 import com.pfariasmunoz.timertutorial.util.NotificationUtil
 import com.pfariasmunoz.timertutorial.util.PrefUtil
@@ -83,7 +85,11 @@ class TimerActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
