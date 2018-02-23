@@ -23,7 +23,7 @@
         <receiver
             android:name=".timer.TimerExpiredReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false"/>
         <receiver
             android:name=".timer.TimerNotificationActionReceiver"
             android:enabled="true"
@@ -36,7 +36,17 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".settings.SettingsActivity"></activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".timer.TimerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".timer.TimerActivity"
+                />
+
+        </activity>
     </application>
 
 </manifest>
