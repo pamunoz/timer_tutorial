@@ -3,6 +3,8 @@ package com.pfariasmunoz.timertutorial.util
 import android.content.Context
 import android.preference.PreferenceManager
 import com.pfariasmunoz.timertutorial.TimerActivity
+import com.pfariasmunoz.timertutorial.extensions.defaultSharedPreferences
+import com.pfariasmunoz.timertutorial.extensions.put
 
 
 object PrefUtil {
@@ -18,31 +20,24 @@ object PrefUtil {
     // it remember the timer of the previous timer length, because we want to change a
     // new timer, not the currently running
     fun getPreviousTimerLengthSeconds(context: Context): Long {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return preferences.getLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, 0)
+        return context.defaultSharedPreferences.getLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, 0)
     }
 
     // Set the previous timer
     fun setPreviousTimerLengthSeconds(seconds: Long, context: Context) {
-        val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-        editor.putLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, seconds)
-        editor.apply()
+        context.defaultSharedPreferences.put(PREVIOUS_TIMER_LENGTH_SECONDS_ID, seconds)
     }
 
     // Kepp track of timer state
     private const val TIMER_STATE_ID = "com.pfariasmunoz.timer.timer_state"
 
     fun getTimerState(context: Context): TimerActivity.TimerState {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val ordinal = preferences.getInt(TIMER_STATE_ID, 0)
+        val ordinal = context.defaultSharedPreferences.getInt(TIMER_STATE_ID, 0)
         return TimerActivity.TimerState.values()[ordinal]
     }
 
     fun setTimerState(state: TimerActivity.TimerState, context: Context) {
-        val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-        val ordinal = state.ordinal
-        editor.putInt(TIMER_STATE_ID, ordinal)
-        editor.apply()
+        context.defaultSharedPreferences.put(TIMER_STATE_ID, state.ordinal)
     }
 
 
@@ -53,27 +48,21 @@ object PrefUtil {
     // it remember the timer of the previous timer length, because we want to change a
     // new timer, not the currently running
     fun getSecondsRemaining(context: Context): Long {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return preferences.getLong(SECONDS_REMAINING_ID, 0)
+        return context.defaultSharedPreferences.getLong(SECONDS_REMAINING_ID, 0)
     }
 
     // Set the previous timer
     fun setSecondsRemaining(seconds: Long, context: Context) {
-        val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-        editor.putLong(SECONDS_REMAINING_ID, seconds)
-        editor.apply()
+        context.defaultSharedPreferences.put(SECONDS_REMAINING_ID, seconds)
     }
 
     private const val ALARM_SET_TIME_ID = "com.pfariasmunoz.timer.backgrounded_time"
 
     fun getAlarmSetTime(context: Context): Long {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return preferences.getLong(ALARM_SET_TIME_ID, 0)
+        return context.defaultSharedPreferences.getLong(ALARM_SET_TIME_ID, 0)
     }
 
     fun setAlarmSetTime(time: Long, context: Context) {
-        val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-        editor.putLong(ALARM_SET_TIME_ID, time)
-        editor.apply()
+        context.defaultSharedPreferences.put(ALARM_SET_TIME_ID, time)
     }
 }
