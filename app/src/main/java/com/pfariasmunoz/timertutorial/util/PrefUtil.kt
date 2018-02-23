@@ -7,10 +7,11 @@ import com.pfariasmunoz.timertutorial.extensions.put
 
 
 object PrefUtil {
+
+    private const val TIMER_LENGHT_ID = "com.pfariasmunoz.timertutorial.timer.timer_length"
     // Get the timer in Minutes
     fun getTimerLength(context: Context): Int {
-        // placeholder function
-        return 1
+        return context.defaultSharedPreferences.getInt(TIMER_LENGHT_ID, 10)
     }
 
     // This is the ID we use in the preferences to identify the values

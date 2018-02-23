@@ -3,7 +3,7 @@
     xmlns:sample="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools">
     <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-        android:key="com.pfariasmunoz.timertutorial.timer.timerLength"
+        android:key="com.pfariasmunoz.timertutorial.timer.timer_length"
         android:title="Timer Length"
         android:summary="For how many minutes should the Timer run?"
         android:defaultValue="10"
