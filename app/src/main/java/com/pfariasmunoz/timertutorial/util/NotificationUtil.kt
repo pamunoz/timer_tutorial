@@ -26,7 +26,7 @@ object NotificationUtil {
         // We want to be able to control the timer from notifications
         val startIntent = Intent(context, TimerNotificationActionReceiver::class.java)
         // specify actions for the intent
-        startIntent.action = AppConstants.ACTION_START
+        startIntent.action = Action.START
         val startPendingIntent = PendingIntent.getBroadcast(context, 0,
                 startIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Create the actual notifications
@@ -44,13 +44,13 @@ object NotificationUtil {
     fun showTimerRunning(context: Context, wakeUpTime: Long) {
         // stop intent
         val stopIntent = Intent(context, TimerNotificationActionReceiver::class.java)
-        stopIntent.action = AppConstants.ACTION_STOP
+        stopIntent.action = Action.STOP
         val stopPendingIntent = PendingIntent.getBroadcast(context, 0,
                 stopIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // stop intent
         val pauseIntent = Intent(context, TimerNotificationActionReceiver::class.java)
-        pauseIntent.action = AppConstants.ACTION_STOP
+        pauseIntent.action = Action.STOP
         val pausePendingIntent = PendingIntent.getBroadcast(context, 0,
                 pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -75,7 +75,7 @@ object NotificationUtil {
         // We want to be able to control the timer from notifications
         val resumeIntent = Intent(context, TimerNotificationActionReceiver::class.java)
         // specify actions for the intent
-        resumeIntent.action = AppConstants.ACTION_RESUME
+        resumeIntent.action = Action.RESUME
         val resumePendingIntent = PendingIntent.getBroadcast(context, 0,
                 resumeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Create the actual notifications

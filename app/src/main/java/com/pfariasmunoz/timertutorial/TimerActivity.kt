@@ -1,9 +1,5 @@
 package com.pfariasmunoz.timertutorial
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
@@ -14,18 +10,12 @@ import com.pfariasmunoz.timertutorial.util.NotificationUtil
 import com.pfariasmunoz.timertutorial.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_timer.*
 import kotlinx.android.synthetic.main.content_timer.*
-import java.util.*
 
 class TimerActivity : AppCompatActivity() {
 
-    enum class TimerState{
-        STOPPED, PAUSED, RUNNING
-    }
-
-    private lateinit var timer: CountDownTimer
+    private lateinit var countDownTimer: CountDownTimer
     private var timerLengthSeconds = 0L
     private var timerState = TimerState.STOPPED
-
     private var secondsRemaining = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,13 +33,13 @@ class TimerActivity : AppCompatActivity() {
         }
 
         fab_pause.setOnClickListener {
-            timer.cancel()
+            countDownTimer.cancel()
             timerState = TimerState.PAUSED
             updateButtons()
         }
 
         fab_stop.setOnClickListener {
-            timer.cancel()
+            countDownTimer.cancel()
             onTimerFinished()
         }
 
@@ -67,12 +57,11 @@ class TimerActivity : AppCompatActivity() {
         super.onPause()
 
         if (timerState == TimerState.RUNNING) {
-            timer.cancel()
+            countDownTimer.cancel()
             val wakeUpTime = AlarmUtil.setAlarm(this, AlarmUtil.nowSeconds, secondsRemaining)
             // show notification
             NotificationUtil.showTimerRunning(this, wakeUpTime)
-        }
-        else if (timerState == TimerState.PAUSED) {
+        } else if (timerState == TimerState.PAUSED) {
             // show notification
             NotificationUtil.showTimerPaused(this)
         }
@@ -80,6 +69,22 @@ class TimerActivity : AppCompatActivity() {
         PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)
         PrefUtil.setSecondsRemaining(secondsRemaining, this)
         PrefUtil.setTimerState(timerState, this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_timer, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initTimer() {
@@ -110,8 +115,8 @@ class TimerActivity : AppCompatActivity() {
 
     private fun onTimerFinished() {
         timerState = TimerState.STOPPED
-        // We set the length of the timer to be the one set on the settings activity
-        // if the length was changed when the timer was running
+        // We set the length of the countDownTimer to be the one set on the settings activity
+        // if the length was changed when the countDownTimer was running
         setNewTimerLength()
 
         progress_countdown.progress = 0
@@ -123,7 +128,7 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startTimer() {
         timerState = TimerState.RUNNING
-        timer= object : CountDownTimer(secondsRemaining * 1000, 1000) {
+        countDownTimer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
             override fun onFinish() = onTimerFinished()
             override fun onTick(millisUntilFinished: Long) {
                 secondsRemaining = millisUntilFinished / 1000
@@ -171,22 +176,6 @@ class TimerActivity : AppCompatActivity() {
                 fab_pause.isEnabled = false
                 fab_stop.isEnabled = true
             }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_timer, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
         }
     }
 }

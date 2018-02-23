@@ -1,8 +1,7 @@
 package com.pfariasmunoz.timertutorial.util
 
 import android.content.Context
-import android.preference.PreferenceManager
-import com.pfariasmunoz.timertutorial.TimerActivity
+import com.pfariasmunoz.timertutorial.TimerState
 import com.pfariasmunoz.timertutorial.extensions.defaultSharedPreferences
 import com.pfariasmunoz.timertutorial.extensions.put
 
@@ -31,12 +30,12 @@ object PrefUtil {
     // Kepp track of timer state
     private const val TIMER_STATE_ID = "com.pfariasmunoz.timer.timer_state"
 
-    fun getTimerState(context: Context): TimerActivity.TimerState {
+    fun getTimerState(context: Context): TimerState {
         val ordinal = context.defaultSharedPreferences.getInt(TIMER_STATE_ID, 0)
-        return TimerActivity.TimerState.values()[ordinal]
+        return TimerState.values()[ordinal]
     }
 
-    fun setTimerState(state: TimerActivity.TimerState, context: Context) {
+    fun setTimerState(state: TimerState, context: Context) {
         context.defaultSharedPreferences.put(TIMER_STATE_ID, state.ordinal)
     }
 
