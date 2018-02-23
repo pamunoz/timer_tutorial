@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import com.pfariasmunoz.timertutorial.*
+import com.pfariasmunoz.timertutorial.extensions.notificationManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,7 +35,7 @@ object NotificationUtil {
                 .setContentText("Start again?")
                 .setContentIntent(getPendingIntentWithStack(context, TimerActivity::class.java))
                 .addAction(R.drawable.ic_play, "Start", startPendingIntent)
-        val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val nManager = context.notificationManager
         nManager.createNotificationChannel(CHANNEL_ID_TIMER, CHANNEL_NAME_TIMER, true)
         // Now create the notification
         nManager.notify(TIMER_ID, nBuilder.build())
@@ -64,7 +65,7 @@ object NotificationUtil {
                 .setOngoing(true) // the user cannot dismiss the notification manually
                 .addAction(R.drawable.ic_stop, "Stop", stopPendingIntent)
                 .addAction(R.drawable.ic_pause, "Pause", pausePendingIntent)
-        val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val nManager = context.notificationManager
         nManager.createNotificationChannel(CHANNEL_ID_TIMER, CHANNEL_NAME_TIMER, true)
         // Now create the notification
         nManager.notify(TIMER_ID, nBuilder.build())
@@ -84,22 +85,22 @@ object NotificationUtil {
                 .setContentIntent(getPendingIntentWithStack(context, TimerActivity::class.java))
                 .setOngoing(true)
                 .addAction(R.drawable.ic_play, "Resume", resumePendingIntent)
-        val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val nManager = context.notificationManager
         nManager.createNotificationChannel(CHANNEL_ID_TIMER, CHANNEL_NAME_TIMER, true)
         // Now create the notification
         nManager.notify(TIMER_ID, nBuilder.build())
     }
 
     fun hideTimerNotification(context: Context) {
-        val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val nManager = context.notificationManager
         nManager.cancel(TIMER_ID)
     }
 
     private fun getBasicNotificationBuilder(
-            context: Context, channeLId: String, playSound: Boolean)
+            context: Context, channelId: String, playSound: Boolean)
             : NotificationCompat.Builder {
         val notificationSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val nBuilder = NotificationCompat.Builder(context, channeLId)
+        val nBuilder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_timer)
                 .setAutoCancel(true)
                 .setDefaults(0)
@@ -112,12 +113,11 @@ object NotificationUtil {
         // This will make that if the activity is already open, is not going to be created again
         resultIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
-        val stackBuilder = TaskStackBuilder.create(context)
-        stackBuilder.addParentStack(javaClass)
-        // This is the activity that we want to be open
-        stackBuilder.addNextIntent(resultIntent)
-
-        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        return TaskStackBuilder
+                .create(context)
+                .addParentStack(javaClass)
+                .addNextIntent(resultIntent)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     @TargetApi(26)
