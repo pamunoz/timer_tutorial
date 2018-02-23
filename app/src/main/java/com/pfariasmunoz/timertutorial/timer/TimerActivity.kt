@@ -28,7 +28,7 @@ class TimerActivity : AppCompatActivity() {
         supportActionBar?.setIcon(R.drawable.ic_timer)
         supportActionBar?.title = "      Timer"
 
-        // add funtionality to the fabButtons
+        // add functionality to the fabButtons
         fab_start.setOnClickListener {
             startTimer()
             timerState = TimerState.RUNNING
@@ -42,7 +42,8 @@ class TimerActivity : AppCompatActivity() {
         }
 
         fab_stop.setOnClickListener {
-            countDownTimer.cancel()
+            if (countDownTimer != null) countDownTimer.cancel()
+
             onTimerFinished()
         }
 
@@ -94,6 +95,7 @@ class TimerActivity : AppCompatActivity() {
         }
     }
 
+    // Timer methods
     private fun initTimer() {
         timerState = PrefUtil.getTimerState(this)
         if (timerState == TimerState.STOPPED) {
@@ -120,6 +122,17 @@ class TimerActivity : AppCompatActivity() {
 
     }
 
+    private fun startTimer() {
+        timerState = TimerState.RUNNING
+        countDownTimer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
+            override fun onFinish() = onTimerFinished()
+            override fun onTick(millisUntilFinished: Long) {
+                secondsRemaining = millisUntilFinished / 1000
+                updateCountdownUI()
+            }
+        }.start()
+    }
+
     private fun onTimerFinished() {
         timerState = TimerState.STOPPED
         // We set the length of the countDownTimer to be the one set on the settings activity
@@ -131,17 +144,6 @@ class TimerActivity : AppCompatActivity() {
         secondsRemaining = timerLengthSeconds
         updateButtons()
         updateCountdownUI()
-    }
-
-    private fun startTimer() {
-        timerState = TimerState.RUNNING
-        countDownTimer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
-            override fun onFinish() = onTimerFinished()
-            override fun onTick(millisUntilFinished: Long) {
-                secondsRemaining = millisUntilFinished / 1000
-                updateCountdownUI()
-            }
-        }.start()
     }
 
     private fun setNewTimerLength() {
