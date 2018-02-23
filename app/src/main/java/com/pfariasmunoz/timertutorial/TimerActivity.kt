@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.pfariasmunoz.timertutorial.util.AlarmUtil
 import com.pfariasmunoz.timertutorial.util.NotificationUtil
 import com.pfariasmunoz.timertutorial.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_timer.*
@@ -16,28 +17,6 @@ import kotlinx.android.synthetic.main.content_timer.*
 import java.util.*
 
 class TimerActivity : AppCompatActivity() {
-
-    companion object {
-        fun setAlarm(context: Context, nowSeconds: Long, secondsRemaining: Long): Long {
-            val wakeUpTime = (nowSeconds + secondsRemaining) * 1000
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(context, TimerExpiredReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, wakeUpTime, pendingIntent)
-            PrefUtil.setAlarmSetTime(nowSeconds, context)
-            return wakeUpTime
-        }
-
-        fun removeAlarm(context: Context) {
-            val intent = Intent(context, TimerExpiredReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.cancel(pendingIntent)
-            PrefUtil.setAlarmSetTime(0, context)
-        }
-        val nowSeconds: Long
-            get() = Calendar.getInstance().timeInMillis / 1000
-    }
 
     enum class TimerState{
         STOPPED, PAUSED, RUNNING
@@ -57,19 +36,19 @@ class TimerActivity : AppCompatActivity() {
         supportActionBar?.title = "      Timer"
 
         // add funtionality to the fabButtons
-        fab_start.setOnClickListener { v ->
+        fab_start.setOnClickListener {
             startTimer()
             timerState = TimerState.RUNNING
             updateButtons()
         }
 
-        fab_pause.setOnClickListener { v ->
+        fab_pause.setOnClickListener {
             timer.cancel()
             timerState = TimerState.PAUSED
             updateButtons()
         }
 
-        fab_stop.setOnClickListener { v ->
+        fab_stop.setOnClickListener {
             timer.cancel()
             onTimerFinished()
         }
@@ -80,7 +59,7 @@ class TimerActivity : AppCompatActivity() {
         super.onResume()
 
         initTimer()
-        removeAlarm(this)
+        AlarmUtil.removeAlarm(this)
         NotificationUtil.hideTimerNotification(this)
     }
 
@@ -89,7 +68,7 @@ class TimerActivity : AppCompatActivity() {
 
         if (timerState == TimerState.RUNNING) {
             timer.cancel()
-            val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
+            val wakeUpTime = AlarmUtil.setAlarm(this, AlarmUtil.nowSeconds, secondsRemaining)
             // show notification
             NotificationUtil.showTimerRunning(this, wakeUpTime)
         }
@@ -118,7 +97,7 @@ class TimerActivity : AppCompatActivity() {
 
         val alarmSetTime = PrefUtil.getAlarmSetTime(this)
         if (alarmSetTime > 0) {
-            secondsRemaining -= nowSeconds - alarmSetTime
+            secondsRemaining -= AlarmUtil.nowSeconds - alarmSetTime
         } else if (timerState == TimerState.RUNNING) {
             startTimer()
         }
