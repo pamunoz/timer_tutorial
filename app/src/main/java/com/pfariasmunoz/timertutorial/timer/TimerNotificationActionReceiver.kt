@@ -1,4 +1,4 @@
-package com.pfariasmunoz.timertutorial
+package com.pfariasmunoz.timertutorial.timer
 
 import android.content.BroadcastReceiver
 import android.content.Context

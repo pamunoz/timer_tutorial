@@ -1,10 +1,11 @@
-package com.pfariasmunoz.timertutorial
+package com.pfariasmunoz.timertutorial.timer
 
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.pfariasmunoz.timertutorial.R
 import com.pfariasmunoz.timertutorial.util.AlarmUtil
 import com.pfariasmunoz.timertutorial.util.NotificationUtil
 import com.pfariasmunoz.timertutorial.util.PrefUtil

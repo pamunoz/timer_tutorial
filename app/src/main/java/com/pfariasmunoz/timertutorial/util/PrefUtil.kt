@@ -1,7 +1,7 @@
 package com.pfariasmunoz.timertutorial.util
 
 import android.content.Context
-import com.pfariasmunoz.timertutorial.TimerState
+import com.pfariasmunoz.timertutorial.timer.TimerState
 import com.pfariasmunoz.timertutorial.extensions.defaultSharedPreferences
 import com.pfariasmunoz.timertutorial.extensions.put
 

@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.pfariasmunoz.timertutorial.TimerExpiredReceiver
+import com.pfariasmunoz.timertutorial.timer.TimerExpiredReceiver
 import com.pfariasmunoz.timertutorial.extensions.alarmManager
 import java.util.*
 

@@ -1,4 +1,4 @@
-package com.pfariasmunoz.timertutorial
+package com.pfariasmunoz.timertutorial.timer
 
 object Action {
     const val STOP = "stop"

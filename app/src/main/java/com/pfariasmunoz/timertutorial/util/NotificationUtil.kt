@@ -14,6 +14,9 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import com.pfariasmunoz.timertutorial.*
 import com.pfariasmunoz.timertutorial.extensions.notificationManager
+import com.pfariasmunoz.timertutorial.timer.Action
+import com.pfariasmunoz.timertutorial.timer.TimerActivity
+import com.pfariasmunoz.timertutorial.timer.TimerNotificationActionReceiver
 import java.text.SimpleDateFormat
 import java.util.*
 
