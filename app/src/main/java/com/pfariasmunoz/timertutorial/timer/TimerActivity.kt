@@ -14,7 +14,9 @@ import com.pfariasmunoz.timertutorial.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_timer.*
 import kotlinx.android.synthetic.main.content_timer.*
 
-class TimerActivity : AppCompatActivity() {
+class TimerActivity : AppCompatActivity(), TimerContract.View {
+
+    override lateinit var presenter: TimerContract.Presenter
 
     private lateinit var countDownTimer: CountDownTimer
     private var timerLengthSeconds = 0L
