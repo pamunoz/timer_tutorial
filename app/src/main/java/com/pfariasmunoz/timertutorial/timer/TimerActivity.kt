@@ -30,28 +30,31 @@ class TimerActivity : AppCompatActivity() {
 
         // add functionality to the fabButtons
         fab_start.setOnClickListener {
+            // Presenter
             startTimer()
             timerState = TimerState.RUNNING
+            // UI
             updateButtons()
         }
 
         fab_pause.setOnClickListener {
+            // Presenter
             countDownTimer.cancel()
             timerState = TimerState.PAUSED
+            // UI
             updateButtons()
         }
 
         fab_stop.setOnClickListener {
+            // Presenter
             if (countDownTimer != null) countDownTimer.cancel()
-
             onTimerFinished()
         }
-
     }
 
     override fun onResume() {
         super.onResume()
-
+        // Presenter
         initTimer()
         AlarmUtil.removeAlarm(this)
         NotificationUtil.hideTimerNotification(this)
@@ -59,7 +62,7 @@ class TimerActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-
+        // Presenter
         if (timerState == TimerState.RUNNING) {
             countDownTimer.cancel()
             val wakeUpTime = AlarmUtil.setAlarm(this, AlarmUtil.nowSeconds, secondsRemaining)
@@ -69,7 +72,7 @@ class TimerActivity : AppCompatActivity() {
             // show notification
             NotificationUtil.showTimerPaused(this)
         }
-
+        // Presenter
         PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)
         PrefUtil.setSecondsRemaining(secondsRemaining, this)
         PrefUtil.setTimerState(timerState, this)
@@ -97,6 +100,7 @@ class TimerActivity : AppCompatActivity() {
 
     // Timer methods
     private fun initTimer() {
+        // Presenter
         timerState = PrefUtil.getTimerState(this)
         if (timerState == TimerState.STOPPED) {
             setNewTimerLength()
@@ -117,23 +121,28 @@ class TimerActivity : AppCompatActivity() {
         }
 
         if (timerState == TimerState.RUNNING) startTimer()
+
+        // UI
         updateButtons()
         updateCountdownUI()
 
     }
 
     private fun startTimer() {
+        // Presenter
         timerState = TimerState.RUNNING
         countDownTimer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
             override fun onFinish() = onTimerFinished()
             override fun onTick(millisUntilFinished: Long) {
                 secondsRemaining = millisUntilFinished / 1000
+                // UI
                 updateCountdownUI()
             }
         }.start()
     }
 
     private fun onTimerFinished() {
+        // Presenter
         timerState = TimerState.STOPPED
         // We set the length of the countDownTimer to be the one set on the settings activity
         // if the length was changed when the countDownTimer was running
@@ -142,22 +151,28 @@ class TimerActivity : AppCompatActivity() {
         progress_countdown.progress = 0
         PrefUtil.setSecondsRemaining(timerLengthSeconds, this)
         secondsRemaining = timerLengthSeconds
+        // UI
         updateButtons()
         updateCountdownUI()
     }
 
     private fun setNewTimerLength() {
+        // Presenter
         val lengthInMinutes = PrefUtil.getTimerLength(this)
         timerLengthSeconds = (lengthInMinutes * 60L)
+        // UI
         progress_countdown.max = timerLengthSeconds.toInt()
     }
 
     private fun setPreviousTimerLength() {
+        // Presenter
         timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
+        // UI
         progress_countdown.max = timerLengthSeconds.toInt()
     }
 
     private fun updateCountdownUI() {
+        // Presenter
         // this values are for the textview that we need to update
         val minutesUntilFinished = secondsRemaining / 60
         val secondsInMinutesUntilFinished = secondsRemaining - minutesUntilFinished * 60
@@ -165,6 +180,7 @@ class TimerActivity : AppCompatActivity() {
         textView_countdown.text = "$minutesUntilFinished:${
             if(sedondsStr.length == 2) sedondsStr else "0" + sedondsStr
         }"
+        // UI
         progress_countdown.progress = (timerLengthSeconds - secondsRemaining).toInt()
     }
 
