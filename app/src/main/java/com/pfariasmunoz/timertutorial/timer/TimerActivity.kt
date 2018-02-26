@@ -19,13 +19,19 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
     override lateinit var presenter: TimerContract.Presenter
 
     init {
-        presenter = TimerPresenter()
+        presenter = TimerPresenter(this)
     }
 
+    // To Presenter
     private lateinit var countDownTimer: CountDownTimer
     private var timerLengthSeconds = 0L
     private var timerState = TimerState.STOPPED
     private var secondsRemaining = 0L
+
+    private val prefs: PrefUtil = PrefUtil(this)
+    private val alarm: AlarmUtil = AlarmUtil(this, prefs)
+    private val notifications: NotificationUtil = NotificationUtil(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +68,8 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         super.onResume()
         // Presenter
         initTimer()
-        AlarmUtil.removeAlarm(this)
-        NotificationUtil.hideTimerNotification(this)
+        alarm.removeAlarm()
+        notifications.hideTimerNotification()
     }
 
     override fun onPause() {
@@ -71,17 +77,17 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         // Presenter
         if (timerState == TimerState.RUNNING) {
             countDownTimer.cancel()
-            val wakeUpTime = AlarmUtil.setAlarm(this, AlarmUtil.nowSeconds, secondsRemaining)
+            val wakeUpTime = alarm.setAlarm(alarm.nowSeconds, secondsRemaining)
             // show notification
-            NotificationUtil.showTimerRunning(this, wakeUpTime)
+            notifications.showTimerRunning(wakeUpTime)
         } else if (timerState == TimerState.PAUSED) {
             // show notification
-            NotificationUtil.showTimerPaused(this)
+            notifications.showTimerPaused()
         }
         // Presenter
-        PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)
-        PrefUtil.setSecondsRemaining(secondsRemaining, this)
-        PrefUtil.setTimerState(timerState, this)
+        prefs.setPreviousTimerLengthSeconds(timerLengthSeconds)
+        prefs.setSecondsRemaining(secondsRemaining)
+        prefs.setTimerState(timerState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -107,21 +113,21 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
     // Timer methods
     private fun initTimer() {
         // Presenter
-        timerState = PrefUtil.getTimerState(this)
+        timerState = prefs.getTimerState()
         if (timerState == TimerState.STOPPED) {
             setNewTimerLength()
         } else {
             setPreviousTimerLength()
         }
         secondsRemaining = if (timerState == TimerState.RUNNING || timerState == TimerState.PAUSED) {
-            PrefUtil.getSecondsRemaining(this)
+            prefs.getSecondsRemaining()
         } else {
             timerLengthSeconds
         }
 
-        val alarmSetTime = PrefUtil.getAlarmSetTime(this)
+        val alarmSetTime = prefs.getAlarmSetTime()
         if (alarmSetTime > 0) {
-            secondsRemaining -= AlarmUtil.nowSeconds - alarmSetTime
+            secondsRemaining -= alarm.nowSeconds - alarmSetTime
         } else if (timerState == TimerState.RUNNING) {
             startTimer()
         }
@@ -155,7 +161,7 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         setNewTimerLength()
 
         progress_countdown.progress = 0
-        PrefUtil.setSecondsRemaining(timerLengthSeconds, this)
+        prefs.setSecondsRemaining(timerLengthSeconds)
         secondsRemaining = timerLengthSeconds
         // UI
         updateButtons()
@@ -164,7 +170,7 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
 
     private fun setNewTimerLength() {
         // Presenter
-        val lengthInMinutes = PrefUtil.getTimerLength(this)
+        val lengthInMinutes = prefs.getTimerLength()
         timerLengthSeconds = (lengthInMinutes * 60L)
         // UI
         progress_countdown.max = timerLengthSeconds.toInt()
@@ -172,7 +178,7 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
 
     private fun setPreviousTimerLength() {
         // Presenter
-        timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
+        timerLengthSeconds = prefs.getPreviousTimerLengthSeconds()
         // UI
         progress_countdown.max = timerLengthSeconds.toInt()
     }

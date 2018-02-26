@@ -4,7 +4,7 @@ import android.os.CountDownTimer
 import com.pfariasmunoz.timertutorial.R.id.textView_countdown
 import kotlinx.android.synthetic.main.content_timer.*
 
-class TimerPresenter : TimerContract.Presenter {
+class TimerPresenter(val timerView: TimerContract.View) : TimerContract.Presenter {
 
     // TimerState
     // CoundownTimer
