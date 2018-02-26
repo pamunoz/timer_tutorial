@@ -10,6 +10,6 @@ interface TimerContract {
     }
 
     interface Presenter : BasePresenter {
-
+        val progress: Int
     }
 }

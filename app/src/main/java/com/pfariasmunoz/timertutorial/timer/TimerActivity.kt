@@ -18,6 +18,10 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
 
     override lateinit var presenter: TimerContract.Presenter
 
+    init {
+        presenter = TimerPresenter()
+    }
+
     private lateinit var countDownTimer: CountDownTimer
     private var timerLengthSeconds = 0L
     private var timerState = TimerState.STOPPED
@@ -183,7 +187,8 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
             if(sedondsStr.length == 2) sedondsStr else "0" + sedondsStr
         }"
         // UI
-        progress_countdown.progress = (timerLengthSeconds - secondsRemaining).toInt()
+
+        progress_countdown.progress = presenter.progress
     }
 
     override fun updateButtons() {
