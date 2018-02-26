@@ -2,9 +2,16 @@ package com.pfariasmunoz.timertutorial.timer
 
 import android.os.CountDownTimer
 import com.pfariasmunoz.timertutorial.R.id.textView_countdown
+import com.pfariasmunoz.timertutorial.util.AlarmUtil
+import com.pfariasmunoz.timertutorial.util.NotificationUtil
+import com.pfariasmunoz.timertutorial.util.PrefUtil
 import kotlinx.android.synthetic.main.content_timer.*
 
-class TimerPresenter(val timerView: TimerContract.View) : TimerContract.Presenter {
+class TimerPresenter(
+        val timerView: TimerContract.View,
+        val alarmUtil: AlarmUtil,
+        val prefUtil: PrefUtil,
+        val notificationUtil: NotificationUtil) : TimerContract.Presenter {
 
     // TimerState
     // CoundownTimer

@@ -18,10 +18,6 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
 
     override lateinit var presenter: TimerContract.Presenter
 
-    init {
-        presenter = TimerPresenter(this)
-    }
-
     // To Presenter
     private lateinit var countDownTimer: CountDownTimer
     private var timerLengthSeconds = 0L
@@ -31,6 +27,11 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
     private val prefs: PrefUtil = PrefUtil(this)
     private val alarm: AlarmUtil = AlarmUtil(this, prefs)
     private val notifications: NotificationUtil = NotificationUtil(this)
+
+    init {
+        this.presenter = TimerPresenter(this, alarm, prefs, notifications)
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
