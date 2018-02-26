@@ -17,13 +17,6 @@ import kotlinx.android.synthetic.main.content_timer.*
 class TimerActivity : AppCompatActivity(), TimerContract.View {
 
     override lateinit var presenter: TimerContract.Presenter
-
-    // To Presenter
-    private lateinit var countDownTimer: CountDownTimer
-    private var timerLengthSeconds = 0L
-    private var timerState = TimerState.STOPPED
-    private var secondsRemaining = 0L
-
     private val prefs: PrefUtil = PrefUtil(this)
     private val alarm: AlarmUtil = AlarmUtil(this, prefs)
     private val notifications: NotificationUtil = NotificationUtil(this)
@@ -44,51 +37,29 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         // add functionality to the fabButtons
         fab_start.setOnClickListener {
             // Presenter
-            startTimer()
-            timerState = TimerState.RUNNING
-            // UI
-            updateButtons()
+            presenter.startTimer()
         }
 
         fab_pause.setOnClickListener {
             // Presenter
-            countDownTimer.cancel()
-            timerState = TimerState.PAUSED
-            // UI
-            updateButtons()
+            presenter.pauseTimer()
         }
 
         fab_stop.setOnClickListener {
             // Presenter
-            if (countDownTimer != null) countDownTimer.cancel()
-            onTimerFinished()
+            presenter.stopTimer()
         }
     }
 
     override fun onResume() {
         super.onResume()
         // Presenter
-        initTimer()
-        alarm.removeAlarm()
-        notifications.hideTimerNotification()
+        presenter.start()
     }
 
     override fun onPause() {
         super.onPause()
-        // Presenter
-        if (timerState == TimerState.RUNNING) {
-            countDownTimer.cancel()
-            val wakeUpTime = alarm.setAlarm(alarm.nowSeconds, secondsRemaining)
-            // show notification
-            notifications.showTimerRunning(wakeUpTime)
-        } else if (timerState == TimerState.PAUSED) {
-            // show notification
-            notifications.showTimerPaused()
-        }
-        // Presenter
-        prefs.setPreviousTimerLengthSeconds(timerLengthSeconds)
-        prefs.setSecondsRemaining(secondsRemaining)
-        prefs.setTimerState(timerState)
+        presenter.onPauseView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -111,85 +82,12 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         }
     }
 
-    // Timer methods
-    private fun initTimer() {
-        // Presenter
-        timerState = prefs.getTimerState()
-        if (timerState == TimerState.STOPPED) {
-            setNewTimerLength()
-        } else {
-            setPreviousTimerLength()
-        }
-        secondsRemaining = if (timerState == TimerState.RUNNING || timerState == TimerState.PAUSED) {
-            prefs.getSecondsRemaining()
-        } else {
-            timerLengthSeconds
-        }
-
-        val alarmSetTime = prefs.getAlarmSetTime()
-        if (alarmSetTime > 0) {
-            secondsRemaining -= alarm.nowSeconds - alarmSetTime
-        } else if (timerState == TimerState.RUNNING) {
-            startTimer()
-        }
-
-        if (timerState == TimerState.RUNNING) startTimer()
-
-        // UI
-        updateButtons()
-        updateCountdownUI()
-
-    }
-
-    private fun startTimer() {
-        // Presenter
-        timerState = TimerState.RUNNING
-        countDownTimer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
-            override fun onFinish() = onTimerFinished()
-            override fun onTick(millisUntilFinished: Long) {
-                secondsRemaining = millisUntilFinished / 1000
-                // UI
-                updateCountdownUI()
-            }
-        }.start()
-    }
-
-    private fun onTimerFinished() {
-        // Presenter
-        timerState = TimerState.STOPPED
-        // We set the length of the countDownTimer to be the one set on the settings activity
-        // if the length was changed when the countDownTimer was running
-        setNewTimerLength()
-
-        progress_countdown.progress = 0
-        prefs.setSecondsRemaining(timerLengthSeconds)
-        secondsRemaining = timerLengthSeconds
-        // UI
-        updateButtons()
-        updateCountdownUI()
-    }
-
-    private fun setNewTimerLength() {
-        // Presenter
-        val lengthInMinutes = prefs.getTimerLength()
-        timerLengthSeconds = (lengthInMinutes * 60L)
-        // UI
-        progress_countdown.max = timerLengthSeconds.toInt()
-    }
-
-    private fun setPreviousTimerLength() {
-        // Presenter
-        timerLengthSeconds = prefs.getPreviousTimerLengthSeconds()
-        // UI
-        progress_countdown.max = timerLengthSeconds.toInt()
-    }
-
-    private fun updateCountdownUI() {
+    override fun updateCountdownUI() {
         textView_countdown.text = presenter.timerText
         progress_countdown.progress = presenter.progress
     }
 
-    override fun updateButtons() {
+    override fun updateButtons(timerState: TimerState) {
         when(timerState) {
             TimerState.RUNNING -> {
                 fab_start.isEnabled = false
@@ -208,4 +106,14 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
             }
         }
     }
+
+    override fun resetProgressCountdown() {
+        progress_countdown.progress = 0
+    }
+
+    override fun setMaxProgressCountdown(max: Int) {
+        progress_countdown.max = max
+    }
+
+
 }

@@ -6,11 +6,18 @@ import com.pfariasmunoz.timertutorial.mvp.BaseView
 interface TimerContract {
 
     interface View : BaseView<Presenter> {
-        fun updateButtons()
+        fun updateButtons(timerState: TimerState)
+        fun updateCountdownUI()
+        fun resetProgressCountdown()
+        fun setMaxProgressCountdown(max: Int)
     }
 
     interface Presenter : BasePresenter {
         val progress: Int
         val timerText: String
+        fun startTimer()
+        fun stopTimer()
+        fun pauseTimer()
+        fun onPauseView()
     }
 }
