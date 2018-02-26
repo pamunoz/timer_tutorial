@@ -178,16 +178,7 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
     }
 
     private fun updateCountdownUI() {
-        // Presenter
-        // this values are for the textview that we need to update
-        val minutesUntilFinished = secondsRemaining / 60
-        val secondsInMinutesUntilFinished = secondsRemaining - minutesUntilFinished * 60
-        val sedondsStr = secondsInMinutesUntilFinished.toString()
-        textView_countdown.text = "$minutesUntilFinished:${
-            if(sedondsStr.length == 2) sedondsStr else "0" + sedondsStr
-        }"
-        // UI
-
+        textView_countdown.text = presenter.timerText
         progress_countdown.progress = presenter.progress
     }
 

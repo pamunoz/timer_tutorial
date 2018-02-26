@@ -19,6 +19,16 @@ class TimerPresenter : TimerContract.Presenter {
     override val progress : Int
         get() = (timerLengthSeconds - secondsRemaining).toInt()
 
+    override val timerText: String
+        get() {
+            val minutesUntilFinished = secondsRemaining / 60
+            val secondsInMinutesUntilFinished = secondsRemaining - minutesUntilFinished * 60
+            val sedondsStr = secondsInMinutesUntilFinished.toString()
+            return "$minutesUntilFinished:${
+                if(sedondsStr.length == 2) sedondsStr else "0" + sedondsStr
+            }"
+        }
+
     override fun start() {
 
     }
