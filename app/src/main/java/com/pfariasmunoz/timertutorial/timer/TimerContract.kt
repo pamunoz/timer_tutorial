@@ -6,7 +6,7 @@ import com.pfariasmunoz.timertutorial.mvp.BaseView
 interface TimerContract {
 
     interface View : BaseView<Presenter> {
-
+        fun updateButtons()
     }
 
     interface Presenter : BasePresenter {

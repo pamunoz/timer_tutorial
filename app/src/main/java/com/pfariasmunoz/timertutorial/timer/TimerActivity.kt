@@ -186,7 +186,7 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         progress_countdown.progress = (timerLengthSeconds - secondsRemaining).toInt()
     }
 
-    private fun updateButtons() {
+    override fun updateButtons() {
         when(timerState) {
             TimerState.RUNNING -> {
                 fab_start.isEnabled = false
