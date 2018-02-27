@@ -24,9 +24,9 @@ class TimerPresenter @Inject constructor(
         get() {
             val minutesUntilFinished = secondsRemaining / 60
             val secondsInMinutesUntilFinished = secondsRemaining - minutesUntilFinished * 60
-            val sedondsStr = secondsInMinutesUntilFinished.toString()
+            val secondsStr = secondsInMinutesUntilFinished.toString()
             return "$minutesUntilFinished:${
-                if(sedondsStr.length == 2) sedondsStr else "0" + sedondsStr
+                if(secondsStr.length == 2) secondsStr else "0" + secondsStr
             }"
         }
 

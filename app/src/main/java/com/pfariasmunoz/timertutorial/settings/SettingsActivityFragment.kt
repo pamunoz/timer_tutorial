@@ -5,6 +5,7 @@ import android.support.v7.preference.PreferenceFragmentCompat
 import com.pfariasmunoz.timertutorial.R
 
 class SettingsActivityFragment: PreferenceFragmentCompat() {
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
     }

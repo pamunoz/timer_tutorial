@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sample="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools">
     <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
         android:key="com.pfariasmunoz.timertutorial.timer.timer_length"
         android:title="@string/timer_settings_title"
         android:summary="@string/timer_settings_description"
-        android:defaultValue="10"
+        android:defaultValue="25"
+        app:msbp_minValue="1"
+        app:msbp_maxValue="60"
+        app:msbp_interval="1"
+        app:msbp_measurementUnit="minutes"
+        app:msbp_dialogEnabled="true" />
+
+    <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+        android:key="com.pfariasmunoz.timertutorial.timer.long_break"
+        android:title="Long Rest"
+        android:summary="For how many minutes should the long break be?"
+        android:defaultValue="5"
+        app:msbp_minValue="1"
+        app:msbp_maxValue="60"
+        app:msbp_interval="1"
+        app:msbp_measurementUnit="minutes"
+        app:msbp_dialogEnabled="true" />
+
+    <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+        android:key="com.pfariasmunoz.timertutorial.timer.short_break"
+        android:title="Short Rest"
+        android:summary="For how many minutes should the short break be?"
+        android:defaultValue="20"
         app:msbp_minValue="10"
         app:msbp_maxValue="60"
-        app:msbp_interval="60"
+        app:msbp_interval="1"
         app:msbp_measurementUnit="minutes"
         app:msbp_dialogEnabled="true" />
 

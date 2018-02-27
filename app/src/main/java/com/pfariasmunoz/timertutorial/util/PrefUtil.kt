@@ -10,8 +10,12 @@ import javax.inject.Singleton
 @Singleton
 class PrefUtil @Inject constructor(val context: Context) {
 
+    val res = context.resources
+
     companion object {
         private const val TIMER_LENGHT_ID = "com.pfariasmunoz.timertutorial.timer.timer_length"
+        private const val LONG_BREAK_ID = "com.pfariasmunoz.timertutorial.timer.long_break"
+        private const val SHORT_BREAK_ID = "com.pfariasmunoz.timertutorial.timer.short_break"
         // This is the ID we use in the preferences to identify the values
         private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.pfariasmunoz.timer.previous_timer_length"
         // Kepp track of timer state
@@ -22,12 +26,20 @@ class PrefUtil @Inject constructor(val context: Context) {
         private const val ALARM_SET_TIME_ID = "com.pfariasmunoz.timer.backgrounded_time"
     }
 
-
     // Get the timer in Minutes
     fun getTimerLength(): Int {
-        return context.defaultSharedPreferences.getInt(TIMER_LENGHT_ID, 10)
+        return context.defaultSharedPreferences.getInt(TIMER_LENGHT_ID, 25)
     }
 
+    // Get the timer in Minutes
+    fun getLongBreak(): Int {
+        return context.defaultSharedPreferences.getInt(LONG_BREAK_ID, 20)
+    }
+
+    // Get the timer in Minutes
+    fun getShortBreak(): Int {
+        return context.defaultSharedPreferences.getInt(SHORT_BREAK_ID, 5)
+    }
 
     // Get the timer in Seconds
     // it remember the timer of the previous timer length, because we want to change a
