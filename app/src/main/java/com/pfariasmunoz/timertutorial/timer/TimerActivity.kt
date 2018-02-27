@@ -25,35 +25,21 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         this.presenter = TimerPresenter(this, alarm, prefs, notifications)
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
         setSupportActionBar(toolbar)
         supportActionBar?.setIcon(R.drawable.ic_timer)
-        supportActionBar?.title = "      Timer"
+        supportActionBar?.title = R.string.timer_action_bar_title.toString()
 
         // add functionality to the fabButtons
-        fab_start.setOnClickListener {
-            // Presenter
-            presenter.startTimer()
-        }
-
-        fab_pause.setOnClickListener {
-            // Presenter
-            presenter.pauseTimer()
-        }
-
-        fab_stop.setOnClickListener {
-            // Presenter
-            presenter.stopTimer()
-        }
+        fab_start.setOnClickListener { presenter.startTimer() }
+        fab_pause.setOnClickListener { presenter.pauseTimer() }
+        fab_stop.setOnClickListener { presenter.stopTimer() }
     }
 
     override fun onResume() {
         super.onResume()
-        // Presenter
         presenter.start()
     }
 
@@ -107,13 +93,8 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         }
     }
 
-    override fun resetProgressCountdown() {
-        progress_countdown.progress = 0
-    }
+    override fun resetProgressCountdown() { progress_countdown.progress = 0 }
 
-    override fun setMaxProgressCountdown(max: Int) {
-        progress_countdown.max = max
-    }
-
+    override fun setMaxProgressCountdown(max: Int) { progress_countdown.max = max }
 
 }
