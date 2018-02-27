@@ -31,7 +31,7 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setIcon(R.drawable.ic_timer)
-            title = R.string.timer_action_bar_title.toString()
+            title = getString(R.string.timer_action_bar_title)
         }
         // add functionality to the fabButtons
         fab_start.setOnClickListener { presenter.startTimer() }

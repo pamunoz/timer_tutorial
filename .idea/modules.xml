@@ -4,9 +4,7 @@
     <modules>
       <module fileurl="file://C:\Users\GAMER\Documents\p\timer_tutorial\TimerTutorial.iml" filepath="C:\Users\GAMER\Documents\p\timer_tutorial\TimerTutorial.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\GAMER\Documents\p\timer_tutorial\app\app.iml" filepath="C:\Users\GAMER\Documents\p\timer_tutorial\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/timer_tutorial.iml" filepath="$PROJECT_DIR$/timer_tutorial.iml" />
-      <module fileurl="file://C:\Users\GAMER\Documents\p\timer_tutorial\timer_tutorial.iml" filepath="C:\Users\GAMER\Documents\p\timer_tutorial\timer_tutorial.iml" />
     </modules>
   </component>
 </project>

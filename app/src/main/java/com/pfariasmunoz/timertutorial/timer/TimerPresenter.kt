@@ -1,11 +1,9 @@
 package com.pfariasmunoz.timertutorial.timer
 
 import android.os.CountDownTimer
-import com.pfariasmunoz.timertutorial.R.id.*
 import com.pfariasmunoz.timertutorial.util.AlarmUtil
 import com.pfariasmunoz.timertutorial.util.NotificationUtil
 import com.pfariasmunoz.timertutorial.util.PrefUtil
-import kotlinx.android.synthetic.main.content_timer.*
 
 class TimerPresenter(
         val timerView: TimerContract.View,
@@ -13,7 +11,7 @@ class TimerPresenter(
         val prefUtil: PrefUtil,
         val notificationUtil: NotificationUtil) : TimerContract.Presenter {
 
-    private lateinit var countDownTimer: CountDownTimer
+    private var countDownTimer: CountDownTimer? = null
     private var timerLengthSeconds = 0L
     private var timerState = TimerState.STOPPED
     private var secondsRemaining = 0L
@@ -44,38 +42,32 @@ class TimerPresenter(
             override fun onFinish() = onTimerFinished()
             override fun onTick(millisUntilFinished: Long) {
                 secondsRemaining = millisUntilFinished / 1000
-                // UI
                 timerView.updateCountdownUI()
             }
         }.start()
     }
 
     private fun onTimerFinished() {
-        // Presenter
         timerState = TimerState.STOPPED
         // We set the length of the countDownTimer to be the one set on the settings activity
         // if the length was changed when the countDownTimer was running
         setNewTimerLength()
-
-        timerView.resetProgressCountdown()
         prefUtil.setSecondsRemaining(timerLengthSeconds)
         secondsRemaining = timerLengthSeconds
-        // UI
-        timerView.updateButtons(timerState)
-        timerView.updateCountdownUI()
+        timerView.apply {
+            resetProgressCountdown()
+            updateButtons(timerState)
+            updateCountdownUI()
+        }
     }
 
     private fun setNewTimerLength() {
-        // Presenter
         val lengthInMinutes = prefUtil.getTimerLength()
         timerLengthSeconds = (lengthInMinutes * 60L)
-        // UI
         timerView.setMaxProgressCountdown(timerLengthSeconds.toInt())
     }
 
-    // Timer methods
     private fun initTimer() {
-        // Presenter
         timerState = prefUtil.getTimerState()
         if (timerState == TimerState.STOPPED) {
             setNewTimerLength()
@@ -96,36 +88,31 @@ class TimerPresenter(
         }
 
         if (timerState == TimerState.RUNNING) startTimer()
-
-        // UI
-        timerView.updateButtons(timerState)
-        timerView.updateCountdownUI()
-
+        timerView.apply {
+            updateButtons(timerState)
+            updateCountdownUI()
+        }
     }
 
     private fun setPreviousTimerLength() {
-        // Presenter
         timerLengthSeconds = prefUtil.getPreviousTimerLengthSeconds()
-        // UI
         timerView.setMaxProgressCountdown(timerLengthSeconds.toInt())
     }
 
     override fun stopTimer() {
-        if (countDownTimer != null) countDownTimer.cancel()
+        countDownTimer?.cancel()
         onTimerFinished()
     }
 
     override fun pauseTimer() {
-        countDownTimer.cancel()
+        countDownTimer?.cancel()
         timerState = TimerState.PAUSED
-        // UI
         timerView.updateButtons(timerState)
     }
 
     override fun onPauseView() {
-        // Presenter
         if (timerState == TimerState.RUNNING) {
-            countDownTimer.cancel()
+            countDownTimer?.cancel()
             val wakeUpTime = alarmUtil.setAlarm(alarmUtil.nowSeconds, secondsRemaining)
             // show notification
             notificationUtil.showTimerRunning(wakeUpTime)
@@ -133,11 +120,10 @@ class TimerPresenter(
             // show notification
             notificationUtil.showTimerPaused()
         }
-        // Presenter
-        prefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds)
-        prefUtil.setSecondsRemaining(secondsRemaining)
-        prefUtil.setTimerState(timerState)
+        with(prefUtil) {
+            setPreviousTimerLengthSeconds(timerLengthSeconds)
+            setSecondsRemaining(secondsRemaining)
+            setTimerState(timerState)
+        }
     }
-
-
 }
