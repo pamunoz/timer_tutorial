@@ -10,8 +10,8 @@ import com.pfariasmunoz.timertutorial.util.PrefUtil
 
 class TimerExpiredReceiver : BroadcastReceiver() {
 
-    val preferences: PrefUtil
-    val notifications: NotificationUtil
+    private val preferences: PrefUtil
+    private val notifications: NotificationUtil
 
     init {
         this.preferences = Injector.get().prefUtil()

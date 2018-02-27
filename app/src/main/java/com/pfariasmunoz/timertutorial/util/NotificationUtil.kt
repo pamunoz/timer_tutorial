@@ -31,7 +31,6 @@ class NotificationUtil @Inject constructor(val context: Context) {
         private const val TIMER_ID = 0
     }
 
-
     fun showTimerExpired() {
         // We want to be able to control the timer from notifications
         val startIntent = Intent(context, TimerNotificationActionReceiver::class.java)

@@ -10,9 +10,9 @@ import com.pfariasmunoz.timertutorial.util.PrefUtil
 
 class TimerNotificationActionReceiver : BroadcastReceiver() {
 
-    val preferences: PrefUtil
-    val notifications: NotificationUtil
-    val alarm: AlarmUtil
+    private val preferences: PrefUtil
+    private val notifications: NotificationUtil
+    private val alarm: AlarmUtil
 
     init {
         this.preferences = Injector.get().prefUtil()
@@ -21,11 +21,6 @@ class TimerNotificationActionReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-
-//        val prefs: PrefUtil = PrefUtil(context)
-//        val alarm: AlarmUtil = AlarmUtil(context, prefs)
-//        val notifications: NotificationUtil = NotificationUtil(context)
-
 
         when (intent.action) {
             Action.STOP -> {
