@@ -1,4 +1,4 @@
-package com.pfariasmunoz.timertutorial.di.components
+package com.pfariasmunoz.timertutorial.di
 
 import android.content.Context
 import com.pfariasmunoz.timertutorial.di.modules.ContextModule
@@ -7,6 +7,6 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [ContextModule::class])
-interface SingletonComponent {
+interface AppComponent {
     fun appContext(): Context
 }

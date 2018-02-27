@@ -2,7 +2,7 @@ package com.pfariasmunoz.timertutorial
 
 import android.app.Application
 import com.pfariasmunoz.timertutorial.di.components.DaggerSingletonComponent
-import com.pfariasmunoz.timertutorial.di.components.SingletonComponent
+import com.pfariasmunoz.timertutorial.di.AppComponent
 import com.pfariasmunoz.timertutorial.di.modules.ContextModule
 
 class App : Application() {
@@ -12,7 +12,7 @@ class App : Application() {
             private set
     }
 
-    lateinit var component: SingletonComponent
+    lateinit var component: AppComponent
         private set
 
     override fun onCreate() {
