@@ -29,9 +29,10 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
         setSupportActionBar(toolbar)
-        supportActionBar?.setIcon(R.drawable.ic_timer)
-        supportActionBar?.title = R.string.timer_action_bar_title.toString()
-
+        supportActionBar?.apply {
+            setIcon(R.drawable.ic_timer)
+            title = R.string.timer_action_bar_title.toString()
+        }
         // add functionality to the fabButtons
         fab_start.setOnClickListener { presenter.startTimer() }
         fab_pause.setOnClickListener { presenter.pauseTimer() }
@@ -76,19 +77,19 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
     override fun updateButtons(timerState: TimerState) {
         when(timerState) {
             TimerState.RUNNING -> {
-                fab_start.isEnabled = false
                 fab_pause.isEnabled = true
                 fab_stop.isEnabled = true
+                fab_start.isEnabled = false
             }
             TimerState.STOPPED -> {
-                fab_start.isEnabled = true
                 fab_pause.isEnabled = false
                 fab_stop.isEnabled = false
+                fab_start.isEnabled = true
             }
             TimerState.PAUSED -> {
                 fab_start.isEnabled = true
-                fab_pause.isEnabled = false
                 fab_stop.isEnabled = true
+                fab_pause.isEnabled = false
             }
         }
     }
