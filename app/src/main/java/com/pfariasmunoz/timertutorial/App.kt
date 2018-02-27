@@ -1,8 +1,8 @@
 package com.pfariasmunoz.timertutorial
 
 import android.app.Application
-import com.pfariasmunoz.timertutorial.di.components.DaggerSingletonComponent
 import com.pfariasmunoz.timertutorial.di.AppComponent
+import com.pfariasmunoz.timertutorial.di.DaggerAppComponent
 import com.pfariasmunoz.timertutorial.di.modules.ContextModule
 
 class App : Application() {
@@ -18,7 +18,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        component = DaggerSingletonComponent.builder()
+        component = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()
     }

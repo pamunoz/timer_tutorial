@@ -19,8 +19,11 @@ import com.pfariasmunoz.timertutorial.timer.TimerActivity
 import com.pfariasmunoz.timertutorial.timer.TimerNotificationActionReceiver
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NotificationUtil(val context: Context) {
+@Singleton
+class NotificationUtil @Inject constructor(val context: Context) {
 
     companion object {
         private const val CHANNEL_ID_TIMER = "menu_timer"

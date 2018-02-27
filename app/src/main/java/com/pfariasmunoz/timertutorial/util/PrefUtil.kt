@@ -4,9 +4,11 @@ import android.content.Context
 import com.pfariasmunoz.timertutorial.timer.TimerState
 import com.pfariasmunoz.timertutorial.extensions.defaultSharedPreferences
 import com.pfariasmunoz.timertutorial.extensions.put
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class PrefUtil(val context: Context) {
+@Singleton
+class PrefUtil @Inject constructor(val context: Context) {
 
     companion object {
         private const val TIMER_LENGHT_ID = "com.pfariasmunoz.timertutorial.timer.timer_length"

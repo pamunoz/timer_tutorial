@@ -15,6 +15,7 @@ interface TimerContract {
     interface Presenter : BasePresenter {
         val progress: Int
         val timerText: String
+        fun setView(view: TimerContract.View)
         fun startTimer()
         fun stopTimer()
         fun pauseTimer()

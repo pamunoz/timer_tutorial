@@ -4,9 +4,9 @@ import android.os.CountDownTimer
 import com.pfariasmunoz.timertutorial.util.AlarmUtil
 import com.pfariasmunoz.timertutorial.util.NotificationUtil
 import com.pfariasmunoz.timertutorial.util.PrefUtil
+import javax.inject.Inject
 
-class TimerPresenter(
-        val timerView: TimerContract.View,
+class TimerPresenter @Inject constructor(
         val alarmUtil: AlarmUtil,
         val prefUtil: PrefUtil,
         val notificationUtil: NotificationUtil) : TimerContract.Presenter {
@@ -15,6 +15,7 @@ class TimerPresenter(
     private var timerLengthSeconds = 0L
     private var timerState = TimerState.STOPPED
     private var secondsRemaining = 0L
+    lateinit var timerView: TimerContract.View
 
     override val progress : Int
         get() = (timerLengthSeconds - secondsRemaining).toInt()
@@ -28,6 +29,10 @@ class TimerPresenter(
                 if(sedondsStr.length == 2) sedondsStr else "0" + sedondsStr
             }"
         }
+
+    override fun setView(view: TimerContract.View) {
+        timerView = view
+    }
 
     override fun start() {
         initTimer()

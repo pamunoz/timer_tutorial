@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.pfariasmunoz.timertutorial.R
+import com.pfariasmunoz.timertutorial.di.Injector
 import com.pfariasmunoz.timertutorial.settings.SettingsActivity
 import com.pfariasmunoz.timertutorial.util.AlarmUtil
 import com.pfariasmunoz.timertutorial.util.NotificationUtil
@@ -17,12 +18,12 @@ import kotlinx.android.synthetic.main.content_timer.*
 class TimerActivity : AppCompatActivity(), TimerContract.View {
 
     override lateinit var presenter: TimerContract.Presenter
-    private val prefs: PrefUtil = PrefUtil(this)
-    private val alarm: AlarmUtil = AlarmUtil(this, prefs)
-    private val notifications: NotificationUtil = NotificationUtil(this)
+//    private val prefs: PrefUtil = PrefUtil(this)
+//    private val alarm: AlarmUtil = AlarmUtil(this, prefs)
+//    private val notifications: NotificationUtil = NotificationUtil(this)
 
     init {
-        this.presenter = TimerPresenter(this, alarm, prefs, notifications)
+        this.presenter = Injector.get().timerPresenter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,7 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
             setIcon(R.drawable.ic_timer)
             title = getString(R.string.timer_action_bar_title)
         }
+        presenter.setView(this)
         // add functionality to the fabButtons
         fab_start.setOnClickListener { presenter.startTimer() }
         fab_pause.setOnClickListener { presenter.pauseTimer() }

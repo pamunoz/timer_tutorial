@@ -7,8 +7,11 @@ import android.content.Intent
 import com.pfariasmunoz.timertutorial.timer.TimerExpiredReceiver
 import com.pfariasmunoz.timertutorial.extensions.alarmManager
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AlarmUtil(val context: Context, val pref: PrefUtil) {
+@Singleton
+class AlarmUtil @Inject constructor(val context: Context, val pref: PrefUtil) {
     fun setAlarm(nowSeconds: Long, secondsRemaining: Long): Long {
         val wakeUpTime = (nowSeconds + secondsRemaining) * 1000
         val alarmManager = context.alarmManager
