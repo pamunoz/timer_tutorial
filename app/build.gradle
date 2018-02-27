@@ -35,6 +35,7 @@ dependencies {
     implementation "com.android.support:preference-v7:$versions.support"
     implementation "com.google.dagger:dagger:$versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
     testImplementation 'junit:junit:4.12'
