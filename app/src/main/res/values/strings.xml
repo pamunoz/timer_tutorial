@@ -4,4 +4,12 @@
     <string name="timer_action_bar_title">&#032;&#032;&#032;&#032;Timer</string>
     <string name="timer_settings_description">For how many minutes should the Timer run?</string>
     <string name="timer_settings_title">Timer Length</string>
+
+    <string name="timer_length_id" translatable="false">com.pfariasmunoz.timertutorial.timer.timer_length</string>
+    <string name="long_break_id" translatable="false">com.pfariasmunoz.timertutorial.timer.long_break</string>
+    <string name="short_break_id" translatable="false">com.pfariasmunoz.timertutorial.timer.short_break</string>
+    <string name="previous_timer_length_seconds_id" translatable="false">com.pfariasmunoz.timer.previous_timer_length</string>
+    <string name="timer_state_id" translatable="false">com.pfariasmunoz.timer.timer_state</string>
+    <string name="seconds_remaining_id" translatable="false">com.pfariasmunoz.timer.seconds_remaining</string>
+    <string name="alarm_set_time_id" translatable="false">com.pfariasmunoz.timer.backgrounded_time</string>
 </resources>

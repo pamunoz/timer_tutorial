@@ -1,6 +1,8 @@
 package com.pfariasmunoz.timertutorial.util
 
 import android.content.Context
+import android.content.res.Resources
+import com.pfariasmunoz.timertutorial.R
 import com.pfariasmunoz.timertutorial.timer.TimerState
 import com.pfariasmunoz.timertutorial.extensions.defaultSharedPreferences
 import com.pfariasmunoz.timertutorial.extensions.put
@@ -10,21 +12,19 @@ import javax.inject.Singleton
 @Singleton
 class PrefUtil @Inject constructor(val context: Context) {
 
-    val res = context.resources
+    val res: Resources = context.resources
+    private val TIMER_LENGHT_ID = res.getString(R.string.timer_length_id)
+    private val LONG_BREAK_ID = res.getString(R.string.long_break_id)
+    private val SHORT_BREAK_ID = res.getString(R.string.short_break_id)
+    // This is the ID we use in the preferences to identify the values
+    private val PREVIOUS_TIMER_LENGTH_SECONDS_ID = res.getString(R.string.previous_timer_length_seconds_id)
+    // Kepp track of timer state
+    private val TIMER_STATE_ID = res.getString(R.string.timer_state_id)
+    // Keep track of seconds remaining
+    // This is the ID we use in the preferences to identify the values
+    private val SECONDS_REMAINING_ID= res.getString(R.string.seconds_remaining_id)
+    private val ALARM_SET_TIME_ID = res.getString(R.string.alarm_set_time_id)
 
-    companion object {
-        private const val TIMER_LENGHT_ID = "com.pfariasmunoz.timertutorial.timer.timer_length"
-        private const val LONG_BREAK_ID = "com.pfariasmunoz.timertutorial.timer.long_break"
-        private const val SHORT_BREAK_ID = "com.pfariasmunoz.timertutorial.timer.short_break"
-        // This is the ID we use in the preferences to identify the values
-        private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.pfariasmunoz.timer.previous_timer_length"
-        // Kepp track of timer state
-        private const val TIMER_STATE_ID = "com.pfariasmunoz.timer.timer_state"
-        // Keep track of seconds remaining
-        // This is the ID we use in the preferences to identify the values
-        private const val SECONDS_REMAINING_ID= "com.pfariasmunoz.timer.seconds_remaining"
-        private const val ALARM_SET_TIME_ID = "com.pfariasmunoz.timer.backgrounded_time"
-    }
 
     // Get the timer in Minutes
     fun getTimerLength(): Int {

@@ -4,7 +4,7 @@
     xmlns:sample="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools">
     <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-        android:key="com.pfariasmunoz.timertutorial.timer.timer_length"
+        android:key="@string/timer_length_id"
         android:title="@string/timer_settings_title"
         android:summary="@string/timer_settings_description"
         android:defaultValue="25"
@@ -15,7 +15,7 @@
         app:msbp_dialogEnabled="true" />
 
     <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-        android:key="com.pfariasmunoz.timertutorial.timer.long_break"
+        android:key="@string/long_break_id"
         android:title="Long Rest"
         android:summary="For how many minutes should the long break be?"
         android:defaultValue="5"
@@ -26,7 +26,7 @@
         app:msbp_dialogEnabled="true" />
 
     <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-        android:key="com.pfariasmunoz.timertutorial.timer.short_break"
+        android:key="@string/short_break_id"
         android:title="Short Rest"
         android:summary="For how many minutes should the short break be?"
         android:defaultValue="20"
