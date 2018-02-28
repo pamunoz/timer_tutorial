@@ -72,6 +72,34 @@ class TimerPresenter @Inject constructor(
         timerView.setMaxProgressCountdown(timerLengthSeconds.toInt())
     }
 
+    override fun stopTimer() {
+        countDownTimer?.cancel()
+        onTimerFinished()
+    }
+
+    override fun pauseTimer() {
+        countDownTimer?.cancel()
+        timerState = TimerState.PAUSED
+        timerView.updateButtons(timerState)
+    }
+
+    override fun onPauseView() {
+        if (timerState == TimerState.RUNNING) {
+            countDownTimer?.cancel()
+            val wakeUpTime = alarmUtil.setAlarm(alarmUtil.nowSeconds, secondsRemaining)
+            // show notification
+            notificationUtil.showTimerRunning(wakeUpTime)
+        } else if (timerState == TimerState.PAUSED) {
+            // show notification
+            notificationUtil.showTimerPaused()
+        }
+        with(prefUtil) {
+            setPreviousTimerLengthSeconds(timerLengthSeconds)
+            setSecondsRemaining(secondsRemaining)
+            setTimerState(timerState)
+        }
+    }
+
     private fun initTimer() {
         timerState = prefUtil.getTimerState()
         if (timerState == TimerState.STOPPED) {
@@ -102,33 +130,5 @@ class TimerPresenter @Inject constructor(
     private fun setPreviousTimerLength() {
         timerLengthSeconds = prefUtil.getPreviousTimerLengthSeconds()
         timerView.setMaxProgressCountdown(timerLengthSeconds.toInt())
-    }
-
-    override fun stopTimer() {
-        countDownTimer?.cancel()
-        onTimerFinished()
-    }
-
-    override fun pauseTimer() {
-        countDownTimer?.cancel()
-        timerState = TimerState.PAUSED
-        timerView.updateButtons(timerState)
-    }
-
-    override fun onPauseView() {
-        if (timerState == TimerState.RUNNING) {
-            countDownTimer?.cancel()
-            val wakeUpTime = alarmUtil.setAlarm(alarmUtil.nowSeconds, secondsRemaining)
-            // show notification
-            notificationUtil.showTimerRunning(wakeUpTime)
-        } else if (timerState == TimerState.PAUSED) {
-            // show notification
-            notificationUtil.showTimerPaused()
-        }
-        with(prefUtil) {
-            setPreviousTimerLengthSeconds(timerLengthSeconds)
-            setSecondsRemaining(secondsRemaining)
-            setTimerState(timerState)
-        }
     }
 }

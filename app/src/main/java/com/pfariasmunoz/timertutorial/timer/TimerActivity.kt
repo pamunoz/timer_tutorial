@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.ads.AdRequest
 import com.pfariasmunoz.timertutorial.R
 import com.pfariasmunoz.timertutorial.di.Injector
 import com.pfariasmunoz.timertutorial.settings.SettingsActivity
@@ -32,6 +33,9 @@ class TimerActivity : AppCompatActivity(), TimerContract.View {
         fab_start.setOnClickListener { presenter.startTimer() }
         fab_pause.setOnClickListener { presenter.pauseTimer() }
         fab_stop.setOnClickListener { presenter.stopTimer() }
+
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
     }
 
     override fun onResume() {
