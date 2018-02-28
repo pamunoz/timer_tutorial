@@ -12,4 +12,6 @@
     <string name="timer_state_id" translatable="false">com.pfariasmunoz.timer.timer_state</string>
     <string name="seconds_remaining_id" translatable="false">com.pfariasmunoz.timer.seconds_remaining</string>
     <string name="alarm_set_time_id" translatable="false">com.pfariasmunoz.timer.backgrounded_time</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>
