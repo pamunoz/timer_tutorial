@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "463890494436",
+    "firebase_url": "https://timertutorial.firebaseio.com",
+    "project_id": "timertutorial",
+    "storage_bucket": "timertutorial.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463890494436:android:ddc316fd45d28772",
+        "android_client_info": {
+          "package_name": "com.pfariasmunoz.timertutorial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463890494436-v4o5jb5k3hk9hgf0o9fol92jg0c36rd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pfariasmunoz.timertutorial",
+            "certificate_hash": "7314c349b95a52a8b1aaf25457efbd4e4134dd0a"
+          }
+        },
+        {
+          "client_id": "463890494436-vc6uju7qa8skq5t0uct7nedsapfif9nk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ9B2DnTW-lFJ6KTEExcZoaCEJRMjeoko"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463890494436-vc6uju7qa8skq5t0uct7nedsapfif9nk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
